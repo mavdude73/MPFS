@@ -7,7 +7,11 @@ public class PlayerController : MonoBehaviour {
 	private float speed = 5f;
 
 	[SerializeField]
-	private float lookSensitivity = 3f;
+	private float lookSensitivityY = 3f;
+
+	[SerializeField]
+	private float lookSensitivityX = 1f;
+
 
 	private PlayerMotor motor;
 
@@ -26,21 +30,40 @@ public class PlayerController : MonoBehaviour {
 		motor.Move(velocity);
 
 		float yRot = Input.GetAxisRaw("Mouse X");
-		Vector3 rotation = new Vector3 (0f, yRot, 0f) * lookSensitivity;
+		Vector3 rotation = new Vector3 (0f, yRot, 0f) * lookSensitivityY;
 		motor.Rotate(rotation);
 
 		float xRot = Input.GetAxisRaw("Mouse Y");
-		Vector3 camRotation = new Vector3 (xRot, 0f, 0f) * lookSensitivity;
+		float camRotation = xRot * lookSensitivityX;
 		motor.CamRotate(camRotation);
+	}
 
+	void CursorLock()
+	{
+		if(Input.GetKeyDown(KeyCode.Escape))
+		{
+			Cursor.lockState = CursorLockMode.None;
+			Cursor.visible = true;
+		}
 
-
+		if(Cursor.visible)
+		{
+			if(Input.GetButtonDown("Horizontal") || Input.GetButtonDown("Vertical"))
+			{
+				Cursor.lockState = CursorLockMode.Locked;
+				Cursor.visible = false;
+			}
+		}
 
 	}
 
 	void Update()
 	{
 		PlayerMovement();
+		CursorLock();
 	}
+
+
+
 
 }

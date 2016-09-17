@@ -6,9 +6,13 @@ public class PlayerMotor : MonoBehaviour {
 	[SerializeField]
 	private Camera cam;
 
+	[SerializeField]
+	private float cameraRotationLimit = 85f;
+
 	private Vector3 velocity = Vector3.zero;
 	private Vector3 rotation = Vector3.zero;
-	private Vector3 camRotation = Vector3.zero;
+	private float camRotation = 0f;
+	private float currentCamRotation = 0f;
 
 	private Rigidbody rb;
 
@@ -27,7 +31,7 @@ public class PlayerMotor : MonoBehaviour {
 		rotation = rot;
 	}
 
-	public void CamRotate(Vector3 rot)
+	public void CamRotate(float rot)
 	{
 		camRotation = rot;
 	}
@@ -51,7 +55,9 @@ public class PlayerMotor : MonoBehaviour {
 		rb.MoveRotation(rb.rotation * Quaternion.Euler(rotation));
 		if(cam != null)
 		{
-			cam.transform.Rotate(-camRotation);
+			currentCamRotation -= camRotation;
+			currentCamRotation = Mathf.Clamp(currentCamRotation, -cameraRotationLimit, cameraRotationLimit);
+			cam.transform.localEulerAngles = new Vector3 (currentCamRotation, 0f, 0f);
 		}
 	}
 

@@ -6,6 +6,8 @@ public class PlayerSetup : NetworkBehaviour {
 	[SerializeField]
 	Behaviour[] componentsToDisable;
 
+	[SerializeField]
+	private GameObject visor;
 
 	Camera sceneCamera;
 
@@ -22,6 +24,7 @@ public class PlayerSetup : NetworkBehaviour {
 		{
 			sceneCamera = Camera.main;
 			sceneCamera.gameObject.SetActive(false);
+			visor.SetActive(false);
 		}
 	}
 
@@ -30,7 +33,10 @@ public class PlayerSetup : NetworkBehaviour {
 		if(sceneCamera != null)
 		{
 			sceneCamera.gameObject.SetActive(true);
+
 		}
+		Cursor.lockState = CursorLockMode.None;
+		Cursor.visible = true;
 	}
 
 
