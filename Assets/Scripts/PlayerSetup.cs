@@ -26,7 +26,10 @@ public class PlayerSetup : NetworkBehaviour {
 		{
 			sceneCamera = Camera.main;
 			sceneCamera.gameObject.SetActive(false);
-			visor.SetActive(false);
+			if(visor != null)
+			{
+				visor.SetActive(false);
+			}
 		}
 
 		GetComponent<Player>().Setup();

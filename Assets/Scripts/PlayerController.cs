@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
 
 [RequireComponent(typeof(PlayerMotor))]
+[RequireComponent(typeof(Animator))]
 public class PlayerController : MonoBehaviour {
 
 	[SerializeField]
-	private float speed = 5f;
+	private float speed = 3f;
 
 	[SerializeField]
 	private float lookSensitivityY = 3f;
@@ -12,12 +13,13 @@ public class PlayerController : MonoBehaviour {
 	[SerializeField]
 	private float lookSensitivityX = 1f;
 
-
+	private Animator anim;
 	private PlayerMotor motor;
 
 	void Start ()
 	{
 		motor = GetComponent<PlayerMotor>();
+		anim = GetComponent<Animator>();
 	}
 
 	void PlayerMovement()
@@ -27,6 +29,9 @@ public class PlayerController : MonoBehaviour {
 		Vector3 moveHorizontal = transform.right * xMove;
 		Vector3 moveVertical = transform.forward * zMove;
 		Vector3 velocity = (moveHorizontal + moveVertical).normalized * speed;
+
+		anim.SetFloat("Velocity", zMove);
+
 		motor.Move(velocity);
 
 		float yRot = Input.GetAxisRaw("Mouse X");
