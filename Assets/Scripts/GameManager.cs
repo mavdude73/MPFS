@@ -6,6 +6,10 @@ public class GameManager : MonoBehaviour {
 	public static GameManager instance;
 	public GameSettings gameSettings;
 
+	[SerializeField]
+	private GameObject sceneCamera;
+
+
 	void Awake()
 	{
 		if(instance != null)
@@ -16,6 +20,16 @@ public class GameManager : MonoBehaviour {
 		{
 			instance = this;
 		}
+	}
+
+	public void SetSceneCameraActive (bool isActive)
+	{
+		if(sceneCamera == null)
+		{
+			return;
+		}
+
+		sceneCamera.SetActive(isActive);
 	}
 	
 	

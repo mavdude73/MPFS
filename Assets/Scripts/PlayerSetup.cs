@@ -8,12 +8,21 @@ public class PlayerSetup : NetworkBehaviour {
 	Behaviour[] componentsToDisable;
 
 	[SerializeField]
-	private GameObject visor;
-
-	[SerializeField]
 	private string remoteLayerName = "RemotePlayer";
 
-	Camera sceneCamera;
+	[SerializeField]
+	private string dontDrawLayerName = "DontDraw";
+
+	[SerializeField]
+	private GameObject playerGraphics;
+
+	[SerializeField]
+	private GameObject playerUIPrefab;
+
+	[HideInInspector]
+	public GameObject playerUIInstance;
+
+
 
 	void Start ()
 	{
@@ -24,16 +33,25 @@ public class PlayerSetup : NetworkBehaviour {
 		}
 		else
 		{
-			sceneCamera = Camera.main;
-			sceneCamera.gameObject.SetActive(false);
-			if(visor != null)
-			{
-				visor.SetActive(false);
-			}
+			
+			SetLayerRecursively(playerGraphics, LayerMask.NameToLayer(dontDrawLayerName));
+
+			playerUIInstance= Instantiate(playerUIPrefab);
+			playerUIInstance.name = playerUIPrefab.name;
+			GetComponent<Player>().SetupPlayer();
+
 		}
 
-		GetComponent<Player>().Setup();
+	}
 
+	void SetLayerRecursively(GameObject obj, int newLayer)
+	{
+		obj.layer = newLayer;
+
+		foreach (Transform child in obj.transform)
+		{
+			SetLayerRecursively(child.gameObject, newLayer);
+		}
 	}
 
 	public override void OnStartClient ()
@@ -61,13 +79,15 @@ public class PlayerSetup : NetworkBehaviour {
 
 	void OnDisable()
 	{
-		if(sceneCamera != null)
-		{
-			sceneCamera.gameObject.SetActive(true);
+//		Cursor.lockState = CursorLockMode.None;
+//		Cursor.visible = true;
 
+		if(isLocalPlayer)
+		{
+			GameManager.instance.SetSceneCameraActive(true);
 		}
-		Cursor.lockState = CursorLockMode.None;
-		Cursor.visible = true;
+
+		Destroy(playerUIInstance);
 
 		GameManager.UnregisterPlayer(transform.name);
 	}
