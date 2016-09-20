@@ -47,20 +47,20 @@ public class JoinGame : MonoBehaviour {
 		}
 
 
-		foreach(MatchDesc match in matchList.matches)
-		{
-			GameObject roomListItemGameObject = Instantiate (roomListItemPrefab);
-			roomListItemGameObject.transform.SetParent(roomListParent);
-
-			RoomListItem _roomListItem = GetComponent<RoomListItem>();
-			if(_roomListItem != null)
-			{
-				_roomListItem.Setup(match);
-			}
-
-			roomList.Add(roomListItemGameObject);
-		}
-
+//		foreach(MatchDesc match in matchList.matches)
+//		{
+//			GameObject roomListItemGameObject = Instantiate (roomListItemPrefab);
+//			roomListItemGameObject.transform.SetParent(roomListParent);
+//
+//			RoomListItem _roomListItem = roomListItemGameObject.GetComponent<RoomListItem>();
+//			if(_roomListItem != null)
+//			{
+//				_roomListItem.Setup(match);
+//			}
+//
+//			roomList.Add(roomListItemGameObject);
+//		}
+//
 		if(roomList.Count == 0)
 		{
 			status.text = "No rooms at present.";
