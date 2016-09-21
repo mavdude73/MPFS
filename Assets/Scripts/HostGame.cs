@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
 
-public class HostManager : MonoBehaviour {
+public class HostGame : MonoBehaviour {
 
 	[SerializeField]
 	private uint roomSize = 5;
@@ -28,8 +28,7 @@ public class HostManager : MonoBehaviour {
 	{
 		if(roomName != "" && roomName != null)
 		{
-			Debug.Log("Creating room");	
-			networkManager.matchMaker.CreateMatch(roomName, roomSize, true, "", "", "", 0, 1, networkManager.OnMatchCreate);
+			networkManager.matchMaker.CreateMatch(roomName, roomSize, true, "", "", "", 0, 0, networkManager.OnMatchCreate);
 		}
 	}
 

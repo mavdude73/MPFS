@@ -28,6 +28,11 @@ public class PlayerShoot : NetworkBehaviour {
 
 	void Update()
 	{
+		if(PauseMenu.GamePaused)
+		{
+			return;
+		}
+
 		currentWeapon = weaponManager.GetCurrentWeapon();
 
 		if(currentWeapon.fireRate <= 0f)

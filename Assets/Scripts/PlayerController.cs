@@ -43,29 +43,32 @@ public class PlayerController : MonoBehaviour {
 		motor.CamRotate(camRotation);
 	}
 
-//	void CursorLock()
-//	{
-//		if(Input.GetKeyDown(KeyCode.Escape))
-//		{
-//			Cursor.lockState = CursorLockMode.None;
-//			Cursor.visible = true;
-//		}
-//
-//		if(Cursor.visible)
-//		{
-//			if(Input.GetButtonDown("Horizontal") || Input.GetButtonDown("Vertical"))
-//			{
-//				Cursor.lockState = CursorLockMode.Locked;
-//				Cursor.visible = false;
-//			}
-//		}
-//
-//	}
+	void CursorLock()
+	{
+		if(Cursor.lockState != CursorLockMode.Locked)
+		{
+			Cursor.lockState = CursorLockMode.Locked;
+		}
+	}
+
 
 	void Update()
 	{
+		if(PauseMenu.GamePaused)
+		{
+			if(Cursor.lockState != CursorLockMode.None)
+			{
+				Cursor.lockState = CursorLockMode.None;
+			}
+			motor.Move(Vector3.zero);
+			motor.Rotate(Vector3.zero);
+			motor.CamRotate(0f);
+			return;
+		}
+
+		CursorLock();
 		PlayerMovement();
-//		CursorLock();
+
 	}
 
 
