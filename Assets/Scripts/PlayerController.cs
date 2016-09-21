@@ -43,11 +43,17 @@ public class PlayerController : MonoBehaviour {
 		motor.CamRotate(camRotation);
 	}
 
-	void CursorLock()
+	void CursorLock(bool isPaused)
 	{
-		if(Cursor.lockState != CursorLockMode.Locked)
+		if(isPaused)
+		{
+			Cursor.lockState = CursorLockMode.None;
+			Cursor.visible = true;
+		}
+		else
 		{
 			Cursor.lockState = CursorLockMode.Locked;
+			Cursor.visible = false;
 		}
 	}
 
@@ -56,17 +62,15 @@ public class PlayerController : MonoBehaviour {
 	{
 		if(PauseMenu.GamePaused)
 		{
-			if(Cursor.lockState != CursorLockMode.None)
-			{
-				Cursor.lockState = CursorLockMode.None;
-			}
 			motor.Move(Vector3.zero);
 			motor.Rotate(Vector3.zero);
 			motor.CamRotate(0f);
+
+			CursorLock(true);
 			return;
 		}
 
-		CursorLock();
+		CursorLock(false);
 		PlayerMovement();
 
 	}
